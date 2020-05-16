@@ -1,7 +1,18 @@
-<div class="container">
-  <h1 class="title">
-    {{ 'PAGES.HOME.TITLE' | translate }}
-  </h1>
+<button (click)="setDirectory()">Path</button><span>{{ options.directory }}</span>
 
-  <a routerLink="/detail">{{ 'PAGES.HOME.GO_TO_DETAIL' | translate }}</a>
+<form *ngIf="formGroup" [formGroup]="formGroup">
+
+  <ng-container formArrayName="ignoreDirectories">
+    <ng-container *ngFor="let control of formGroup.controls.ignoreDirectories.controls; let index = i;">
+      <ng-container [formGroup]="control">
+        <input id="ignoreDirectories" formControlName="directory" type="text">
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+  <button (click)="addIgnoreDirectoryInput()">Add directory to ignore</button>
+</form>
+
+<div *ngFor="let path of (files$ | async)">
+  {{ path }}
 </div>

@@ -2,11 +2,6 @@
   "name": "angular-electron",
   "version": "7.1.0",
   "description": "Angular 9 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
-  "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
-  },
   "keywords": [
     "angular",
     "angular 9",
@@ -37,7 +32,8 @@
     "test:watch": "ng test",
     "e2e": "npm run build:prod && cross-env TS_NODE_PROJECT='e2e/tsconfig.e2e.json' mocha --timeout 300000 --require ts-node/register e2e/**/*.e2e.ts",
     "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "server": "nodemon ./server/index.js"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "9.1.0",
@@ -92,5 +88,10 @@
   },
   "engines": {
     "node": ">=10.13.0"
+  },
+  "dependencies": {
+    "cors": "2.8.5",
+    "express": "4.17.1",
+    "nodemon": "2.0.4"
   }
 }

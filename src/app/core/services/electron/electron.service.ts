@@ -31,4 +31,11 @@ export class ElectronService {
       this.fs = window.require('fs');
     }
   }
+
+  public pathSelector() {
+    return remote.dialog.showOpenDialog({
+      properties: ['openDirectory'],
+      defaultPath: __dirname
+    });
+  }
 }

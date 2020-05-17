@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const port = 3000
-const { getAllFiles } = require('./helpers');
+const { getAllFiles, getDirectories } = require('./helpers');
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:4200"); // update to match the domain you will make the request from
@@ -10,14 +10,21 @@ app.use(function(req, res, next) {
 });
 
 app.get('/paths', (req, res) => {
-  let currentDir = __dirname.split('/');
-  currentDir.pop();
-  currentDir.push('src');
+  if (!req.query.path) return;
+  currentDir = req.query.path;
+  ignoreDirs = req.query.ignore;
+  if (typeof ignoreDirs === 'string') ignoreDirs = [ignoreDirs]
 
-  if (!req.query.path) currentDir = currentDir.join('/');
-  else currentDir = req.query.path;
+  const result = getAllFiles(currentDir, '.json', null, null, null, ignoreDirs);
+  console.log(result);
 
-  const result = getAllFiles(currentDir, '.json');
+  res.send(result);
+});
+
+app.get('/subdirectories', (req, res) => {
+  if (!req.query.path) return
+  currentDir = req.query.path;
+  const result = getDirectories(currentDir);
   res.send(result);
 })
 

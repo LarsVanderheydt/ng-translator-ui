@@ -1,0 +1,30 @@
+
+<!-- <span>{{ options.directory }}</span><button (click)="setDirectory()">Path</button> -->
+
+<form *ngIf="formGroup" [formGroup]="formGroup">
+  <div>
+    <label for="mainDirectory">Main directory</label>
+    <input formControlName="mainDirectory" type="text" id="mainDirectory" readonly (click)="setDirectory()" [hidden]="true">
+    <span>{{ formGroup.controls.mainDirectory.value }}</span>
+  </div>
+
+  <div formArrayName="ignoreDirectories">
+    <div *ngFor="let control of formGroup.controls.ignoreDirectories.controls; let i = index;">
+      <ng-container [formGroup]="control">
+        <ng-container *ngIf="formGroup.controls.ignoreDirectories.controls[i].value.directory as directory">
+          <input [id]="directory"  formControlName="checked" type="checkbox">
+          <label [for]="directory">{{ directory }}</label>
+          <input formControlName="directory" type="text" [hidden]="true">
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</form>
+
+<button (click)="getPath(formGroup.controls.mainDirectory.value)">
+  Get JSON files
+</button>
+
+<div *ngFor="let path of (files$ | async)">
+  {{ path }}
+</div>

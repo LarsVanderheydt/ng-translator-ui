@@ -1,7 +1,7 @@
 const { join } = require('path');
 const { readdirSync, statSync } = require('fs');
 
-const getAllFiles = (dir, extn, files, result, regex) => {
+const getAllFiles = (dir, extn, files, result, regex, ignore) => {
   files = files || readdirSync(dir);
   result = result || [];
   regex = regex || new RegExp(`\\${extn}$`)
@@ -10,6 +10,13 @@ const getAllFiles = (dir, extn, files, result, regex) => {
     let file = join(dir, files[i]);
 
     if (statSync(file).isDirectory()) {
+      if (ignore) {
+        const checkedArr = ignore
+          .map(ign => (file.includes(ign)) ? true : false)
+          .filter(ign => !!ign)
+        if (checkedArr.length > 0) continue;
+      }
+
       try {
         result = getAllFiles(file, extn, readdirSync(file), result, regex);
       } catch (error) {
@@ -22,6 +29,12 @@ const getAllFiles = (dir, extn, files, result, regex) => {
   return result;
 }
 
+const getDirectories = source =>
+  readdirSync(source, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name)
+
 module.exports = {
-  getAllFiles
+  getAllFiles,
+  getDirectories
 }

@@ -7,11 +7,15 @@ export class PathsService {
 
   constructor(private http: HttpClient) { }
 
-  public getJsonFiles(path) {
+  public getJsonFiles(path, ignore) {
     return this.http.get(`${this.baseUrl}/paths`, {
-      params: {
-        path
-      }
+      params: { path, ignore }
+    });
+  }
+
+  public getSubDirectories(path) {
+    return this.http.get(`${this.baseUrl}/subdirectories`, {
+      params: { path }
     });
   }
 }

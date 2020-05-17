@@ -1,3 +1,4 @@
+import { settingsModule } from './settings/settings.module';
 import 'reflect-metadata';
 import '../polyfills';
 
@@ -17,6 +18,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HomeModule } from './home/home.module';
 
 import { AppComponent } from './app.component';
+import { SettingsComponent } from './settings/settings.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -32,6 +34,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CoreModule,
     SharedModule,
     HomeModule,
+    settingsModule,
     AppRoutingModule,
     TranslateModule.forRoot({
       loader: {
